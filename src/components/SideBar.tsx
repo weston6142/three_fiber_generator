@@ -16,10 +16,14 @@ const SceneHierarchyDiv = styled.div`
 `;
 
 const SceneDetailsDiv = styled.div``;
-
 const SelectedObjectDiv = styled.div``;
 
-export default function SideBar() {
+interface SideBarProps {
+  selectedSideBarElement: string;
+  setSelectedSideBarElement: (selectedSideBarElement: string) => void;
+}
+
+export default function SideBar(props: SideBarProps) {
   return (
     <SideBarDiv>
       <SceneHierarchyDiv></SceneHierarchyDiv>

@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import styled from "styled-components";
+import * as Three from "three";
 
 const TopBarDropDown = styled.div`
   width: 100%;
@@ -6,16 +8,27 @@ const TopBarDropDown = styled.div`
   background-color: #000000;
   display: flex;
   flex-direction: row;
-   align-items: center;
+  align-items: center;
+  font-size: 1em;
 
     
 
 `;
 
-/* The container <div> - needed to position the dropdown content */
-const Dropdown = styled.div`
-  position: relative;
-  display: inline-block;
+/* Links inside the dropdown */
+const DropdownLink = styled.a`
+  color: white;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 0.5em;
+`;
+
+const DropdownButton = styled.button`
+  background-color: black;
+  color: grey;
+  cursor: pointer;
+  border: none;
 `;
 
 /* Dropdown Content (Hidden by Default) */
@@ -26,89 +39,101 @@ const DropdownContent = styled.div`
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   z-index: 1;
+  ${DropdownLink} {
+    background-color: black;
+    color: grey;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  &:hover ${DropdownLink} {
+    background-color: black;
+  }
 `;
 
-/* Links inside the dropdown */
-const DropdownLinks = styled.a`
-  color: white;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+/* The container <div> - needed to position the dropdown content */
+const Dropdown = styled.div`
+  position: relative;
+  display: inline-block;
+  &:hover ${DropdownContent} {
+    display: block;
+  }
+  &:hover ${DropdownButton} {
+    background-color: black;
+  }
 `;
 
-const DropdownButton = styled.button`
-  background-color: black;
-  color: grey;
-  cursor: pointer;
-  border: none;
-`;
+interface TopBarProps {
+  addMesh: (geometry: any) => void;
+}
 
-//   /* Change color of dropdown links on hover */
-//   .dropdown-content a:hover {background-color: #ddd;}
-
-//   /* Show the dropdown menu on hover */
-//   .dropdown:hover .dropdown-content {display: block;}
-
-//   /* Change the background color of the dropdown button when the dropdown content is shown */
-//   .dropdown:hover .dropbtn {background-color: #3e8e41;}
-
-export default function TopBar() {
+export default function TopBar(props: TopBarProps) {
+  const [geometries, setGeometries] = useState<any>([]);
+  useEffect(() => {
+    const classes = Object.keys(Three);
+    setGeometries(classes.filter((c) => c.includes("Geometry")));
+  }, []);
   return (
     <TopBarDropDown>
       <Dropdown>
         <DropdownButton>File</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          <DropdownLink href="#">Link 1</DropdownLink>
+          <DropdownLink href="#">Link 2</DropdownLink>
+          <DropdownLink href="#">Link 3</DropdownLink>
         </DropdownContent>
       </Dropdown>
       <Dropdown>
         <DropdownButton>Edit</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          <DropdownLink href="#">Link 1</DropdownLink>
+          <DropdownLink href="#">Link 2</DropdownLink>
+          <DropdownLink href="#">Link 3</DropdownLink>
         </DropdownContent>
       </Dropdown>
       <Dropdown>
         <DropdownButton>Add</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          {geometries.map((g: any) => (
+            <DropdownLink key={g} onClick={() => props.addMesh(g)} href="#">
+              {g}
+            </DropdownLink>
+          ))}
+          {/* // <DropdownLink href="#">Link 1</DropdownLink>
+          // <DropdownLink href="#">Link 2</DropdownLink>
+          // <DropdownLink href="#">Link 3</DropdownLink> */}
         </DropdownContent>
       </Dropdown>
       <Dropdown>
         <DropdownButton>Play</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          <DropdownLink href="#">Link 1</DropdownLink>
+          <DropdownLink href="#">Link 2</DropdownLink>
+          <DropdownLink href="#">Link 3</DropdownLink>
         </DropdownContent>
       </Dropdown>
       <Dropdown>
         <DropdownButton>Examples</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          <DropdownLink href="#">Link 1</DropdownLink>
+          <DropdownLink href="#">Link 2</DropdownLink>
+          <DropdownLink href="#">Link 3</DropdownLink>
         </DropdownContent>
       </Dropdown>
       <Dropdown>
         <DropdownButton>View</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          <DropdownLink href="#">Link 1</DropdownLink>
+          <DropdownLink href="#">Link 2</DropdownLink>
+          <DropdownLink href="#">Link 3</DropdownLink>
         </DropdownContent>
       </Dropdown>
       <Dropdown>
         <DropdownButton>Help</DropdownButton>
         <DropdownContent>
-          <DropdownLinks href="#">Link 1</DropdownLinks>
-          <DropdownLinks href="#">Link 2</DropdownLinks>
-          <DropdownLinks href="#">Link 3</DropdownLinks>
+          <DropdownLink href="#">Link 1</DropdownLink>
+          <DropdownLink href="#">Link 2</DropdownLink>
+          <DropdownLink href="#">Link 3</DropdownLink>
         </DropdownContent>
       </Dropdown>
     </TopBarDropDown>

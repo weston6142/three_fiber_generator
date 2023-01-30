@@ -17,12 +17,23 @@ const MainAreaDiv = styled.div`
 `;
 
 function App() {
+  const [selectedSideBarElement, setSelectedSideBarElement] =
+    React.useState<any>("");
+  const [renderArea, setRenderArea] = React.useState<any>(<canvas></canvas>);
+
+  const addMesh = (geometry: any) => {
+    console.log(geometry);
+  };
+
   return (
     <AppDiv>
-      <TopBar />
+      <TopBar addMesh={addMesh} />
       <MainAreaDiv>
         <RenderArea />
-        <SideBar />
+        <SideBar
+          selectedSideBarElement={selectedSideBarElement}
+          setSelectedSideBarElement={setSelectedSideBarElement}
+        />
       </MainAreaDiv>
     </AppDiv>
   );
